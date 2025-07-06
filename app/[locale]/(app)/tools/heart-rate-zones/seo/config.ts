@@ -10,7 +10,7 @@ export const HEART_RATE_ZONES_SEO: Record<
   }
 > = {
   en: {
-    title: "Heart Rate Zones Calculator",
+    title: "Discover your ideal heart rate training zones for optimal workouts",
     description:
       "Calculate your personalized heart rate training zones with our free calculator. Basic & Karvonen formulas, age-based chart, complete guide to optimize your cardio workouts.",
     keywords: [
@@ -32,7 +32,7 @@ export const HEART_RATE_ZONES_SEO: Record<
     ],
   },
   es: {
-    title: "Calculadora de zonas de frecuencia cardíaca",
+    title: "Descubre tus zonas de frecuencia cardíaca ideales para un entrenamiento óptimo",
     description:
       "Calcula tus zonas de frecuencia cardíaca personalizadas con nuestra calculadora gratuita. Fórmulas Basic y Karvonen, tabla por edad, guía completa para optimizar tu cardio.",
     keywords: [
@@ -52,7 +52,7 @@ export const HEART_RATE_ZONES_SEO: Record<
     ],
   },
   fr: {
-    title: "Calculateur de zones de fréquence cardiaque",
+    title: "Découvrez vos zones de fréquence cardiaque idéales pour un entraînement optimal",
     description:
       "Calculez vos zones de fréquence cardiaque personnalisées avec notre calculateur gratuit. Formules Basic & Karvonen, tableau par âge, guide complet pour optimiser vos entraînements cardio.",
     keywords: [
@@ -72,7 +72,7 @@ export const HEART_RATE_ZONES_SEO: Record<
     ],
   },
   pt: {
-    title: "Calculadora de zonas de frequência cardíaca",
+    title: "Descubra suas zonas de frequência cardíaca ideais para um treino ótimo",
     description:
       "Calcule suas zonas de frequência cardíaca personalizadas com nossa calculadora gratuita. Fórmulas Basic e Karvonen, tabela por idade, guia completo para otimizar seu treino cardio.",
     keywords: [
@@ -92,7 +92,7 @@ export const HEART_RATE_ZONES_SEO: Record<
     ],
   },
   ru: {
-    title: "Калькулятор зон пульса",
+    title: "Рассчитайте персональные зоны пульса с помощью нашего бесплатного калькулятора",
     description:
       "Рассчитайте персональные зоны пульса с помощью нашего бесплатного калькулятора. Формулы Basic и Карвонена, таблица по возрасту, полное руководство для оптимизации кардио тренировок.",
     keywords: [
@@ -112,7 +112,7 @@ export const HEART_RATE_ZONES_SEO: Record<
     ],
   },
   "zh-CN": {
-    title: "心率区间计算器",
+    title: "使用我们的免费计算器计算您的个性化心率训练区间",
     description: "使用我们的免费计算器计算您的个性化心率训练区间。Basic和Karvonen公式，按年龄分类表，优化有氧运动的完整指南。",
     keywords: [
       "心率区间计算器",

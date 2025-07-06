@@ -307,6 +307,25 @@ export function SEOOptimizedContent() {
       <section className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-3 sm:p-8" itemScope itemType="https://schema.org/FAQPage">
         <h2 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">{t("tools.heart-rate-zones.seo_faq_title")}</h2>
 
+        {/* JSON-LD FAQ Schema for better Google indexing */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: faqItems(t).map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+          type="application/ld+json"
+        />
+
         <div className="space-y-4">
           {faqItems(t).map((item, index) => (
             <div
