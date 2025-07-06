@@ -4,8 +4,8 @@ import { Metadata } from "next";
 import { Locale } from "locales/types";
 import { getI18n } from "locales/server";
 import { HeartRateZonesCalculatorClient } from "app/[locale]/(app)/tools/heart-rate-zones/ui/HeartRateZonesCalculatorClient";
-import { SEOOptimizedContent } from "app/[locale]/(app)/tools/heart-rate-zones/ui/components/SEOOptimizedContent";
-import { EducationalContent } from "app/[locale]/(app)/tools/heart-rate-zones/ui/components/EducationalContent";
+import { SEOOptimizedContentServer } from "app/[locale]/(app)/tools/heart-rate-zones/ui/components/SEOOptimizedContentServer";
+import { EducationalContentServer } from "app/[locale]/(app)/tools/heart-rate-zones/ui/components/EducationalContentServer";
 import { HEART_RATE_ZONES_CONTENT } from "app/[locale]/(app)/tools/heart-rate-zones/seo/page-content";
 import { HEART_RATE_ZONES_SEO } from "app/[locale]/(app)/tools/heart-rate-zones/seo/config";
 import { calculateHeartRateZones } from "app/[locale]/(app)/tools/heart-rate-zones/lib/utils";
@@ -190,8 +190,8 @@ export default async function HeartRateZonesPage({ params }: { params: Promise<{
 
           {/* Educational Content */}
           <div className="mt-16">
-            <EducationalContent />
-            <SEOOptimizedContent />
+            <EducationalContentServer />
+            <SEOOptimizedContentServer />
           </div>
         </div>
       </div>
