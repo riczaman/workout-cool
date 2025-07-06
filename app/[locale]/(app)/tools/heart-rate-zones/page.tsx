@@ -129,6 +129,53 @@ export default async function HeartRateZonesPage({ params }: { params: Promise<{
         }}
         type="application/ld+json"
       />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: seoContent.title,
+            description: seoContent.description,
+            image: {
+              "@type": "ImageObject",
+              url: `${getServerUrl()}/images/screenshots/heart-rate-zones/og.jpg`,
+              width: 1200,
+              height: 630,
+            },
+            datePublished: "2024-01-01",
+            dateModified: new Date().toISOString(),
+            author: {
+              "@type": "Organization",
+              name: "WorkoutCool",
+              url: getServerUrl(),
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "WorkoutCool",
+              logo: {
+                "@type": "ImageObject",
+                url: `${getServerUrl()}/logo.png`,
+              },
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `${getServerUrl()}/${locale}/tools/heart-rate-zones`,
+            },
+            articleSection: "Health & Fitness",
+            keywords: seoContent.keywords,
+            about: {
+              "@type": "Thing",
+              name: "Heart Rate Training Zones",
+              description: "Scientific method for optimizing cardiovascular training through personalized heart rate zones",
+            },
+            educationalLevel: "Beginner to Advanced",
+            learningResourceType: "Calculator and Guide",
+            isAccessibleForFree: true,
+            inLanguage: locale,
+          }),
+        }}
+        type="application/ld+json"
+      />
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
         <div className="container mx-auto px-2 sm:px-4 py-6 max-w-4xl relative z-10">
           {/* SEO-optimized header */}
