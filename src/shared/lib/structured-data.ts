@@ -106,11 +106,6 @@ export function generateStructuredData({
       return {
         ...baseStructuredData,
         "@type": "WebSite",
-        potentialAction: {
-          "@type": "SearchAction",
-          target: `${baseUrl}/search?q={search_term_string}`,
-          "query-input": "required name=search_term_string",
-        },
         sameAs: [SiteConfig.maker.twitter, `${baseUrl}`],
       };
 
@@ -540,13 +535,7 @@ export function generateStructuredData({
             "fórmula Karvonen",
             "zona VO2 máx",
           ],
-          pt: [
-            "calculadora zonas frequência cardíaca",
-            "frequência cardíaca alvo",
-            "zonas de treino",
-            "fórmula Karvonen",
-            "zona VO2 máx",
-          ],
+          pt: ["calculadora zonas frequência cardíaca", "frequência cardíaca alvo", "zonas de treino", "fórmula Karvonen", "zona VO2 máx"],
           ru: ["калькулятор зон пульса", "целевой пульс", "тренировочные зоны", "формула Карвонена", "зона VO2 max"],
           "zh-CN": ["心率区间计算器", "目标心率", "训练区间", "卡沃宁公式", "VO2最大值区间"],
         },
