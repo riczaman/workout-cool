@@ -101,7 +101,7 @@ export function EducationalContent() {
         <div className="text-center mb-8">
           <div className="text-5xl mb-4">🎨</div>
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{t("tools.heart-rate-zones.educational.title")}</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300">Visualisez facilement chaque zone d&apos;entraînement</p>
+          <p className="text-lg text-gray-600 dark:text-gray-300">{t("tools.heart-rate-zones.educational.description")}</p>
         </div>
 
         <div className="grid gap-4">

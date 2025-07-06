@@ -830,6 +830,7 @@ export default {
         "This calculator provides estimates based on general formulas. Results may vary based on your physical condition, medications, and health status. Always consult a healthcare professional before starting a new exercise program, particularly if you have pre-existing medical conditions or experience unusual symptoms during exercise.",
       educational: {
         title: "Understanding Heart Rate Training",
+        description: "Visualize each training zone easily",
         what_are_zones: {
           title: "What Are Heart Rate Zones?",
           content:

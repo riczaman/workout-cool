@@ -743,6 +743,7 @@ export default {
       },
       educational: {
         title: "Entendendo o Treino por Frequência Cardíaca",
+        description: "Visualiza fácilmente cada zona de treino",
         what_are_zones: {
           title: "O Que São Zonas de Frequência Cardíaca?",
           content:

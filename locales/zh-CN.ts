@@ -1204,6 +1204,7 @@ export default {
       },
       educational: {
         title: "了解心率区间训练",
+        description: "轻松可视化每个训练区间",
         what_are_zones: {
           title: "什么是心率区间？",
           content: "心率区间是不同强度运动对应的心跳范围，有助于更有效地实现健身目标。",
