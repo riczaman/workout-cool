@@ -8,7 +8,7 @@ import { ExerciseAttributeValueEnum } from "@prisma/client";
 
 import { useI18n } from "locales/client";
 import Trophy from "@public/images/trophy.png";
-import useBoolean from "@/hooks/useBoolean";
+import useBoolean from "@/shared/hooks/useBoolean";
 import { WorkoutSessionSets } from "@/features/workout-session/ui/workout-session-sets";
 import { WorkoutSessionHeader } from "@/features/workout-session/ui/workout-session-header";
 import { DonationModal } from "@/features/workout-session/ui/donation-modal";
