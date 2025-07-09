@@ -94,10 +94,6 @@ export interface ChangelogNotificationLocalStorage {
 export interface DateUtils {
   /** Validate ISO timestamp */
   isValidISOTimestamp: (timestamp: string) => boolean;
-  /** Parse ISO timestamp */
-  parseISOTimestamp: (timestamp: string) => Date | null;
-  /** Validate date string format */
-  isValidDateString: (dateString: string) => boolean;
   /** Compare date strings */
   compareDateStrings: (date1: string, date2: string) => number;
   /** Get current ISO timestamp */
