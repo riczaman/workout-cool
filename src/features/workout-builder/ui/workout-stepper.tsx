@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQueryState } from "nuqs";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -117,16 +117,32 @@ export function WorkoutStepper() {
     addExerciseModal.setTrue();
   };
 
-  const orderedExercises = exercisesOrder.length
-    ? exercisesOrder
-        .map((id) => flatExercises.find((item) => item.id === id))
-        .filter(Boolean)
-        .map((item) => item!.exercise)
-    : flatExercises.map((item) => item.exercise);
+  // Fix: Use flatExercises as the source of truth, respecting exercisesOrder when possible
+  const orderedExercises = useMemo(() => {
+    if (flatExercises.length === 0) return [];
+
+    if (exercisesOrder.length === 0) {
+      // No custom order, use flatExercises as-is
+      return flatExercises.map((item) => item.exercise);
+    }
+
+    // Create a map for quick lookup
+    const exerciseMap = new Map(flatExercises.map((item) => [item.id, item.exercise]));
+
+    // Get ordered exercises that exist in flatExercises
+    const orderedResults = exercisesOrder.map((id) => exerciseMap.get(id)).filter(Boolean) as ExerciseWithAttributes[];
+
+    // Add any remaining exercises from flatExercises that aren't in exercisesOrder
+    const remainingExercises = flatExercises.filter((item) => !exercisesOrder.includes(item.id)).map((item) => item.exercise);
+
+    return [...orderedResults, ...remainingExercises];
+  }, [flatExercises, exercisesOrder]);
 
   const handleStartWorkout = () => {
     if (orderedExercises.length > 0) {
       startWorkout(orderedExercises, selectedEquipment, selectedMuscles);
+    } else {
+      console.log("🚀 [WORKOUT-STEPPER] No exercises to start workout with!");
     }
   };
 

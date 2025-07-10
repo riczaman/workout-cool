@@ -13,6 +13,7 @@ import { useFavoritesModal } from "@/features/workout-builder/hooks/use-favorite
 
 import { useWorkoutBuilderStore } from "../model/workout-builder.store";
 import { getExercisesByMuscleAction } from "../actions/get-exercises-by-muscle.action";
+import { useWorkoutSession } from "../../workout-session/model/use-workout-session";
 
 interface AddExerciseModalProps {
   isOpen: boolean;
@@ -43,6 +44,7 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
   const { value: isFavoritesExpanded, setTrue: openFavorites, setFalse: closeFavorites } = useBoolean(false);
 
   const { exercisesByMuscle, setExercisesByMuscle, setExercisesOrder, exercisesOrder } = useWorkoutBuilderStore();
+  const { isWorkoutActive, addExerciseToSession } = useWorkoutSession();
   const { data: muscleGroups, isLoading } = useQuery({
     queryKey: ["exercises-by-muscle", selectedEquipment],
     queryFn: async () => {
@@ -72,20 +74,37 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
   }, [isOpen, onClose]);
 
   const handleAddExercise = (exercise: ExerciseWithAttributes, muscle: ExerciseAttributeValueEnum) => {
-    const muscleGroupIndex = exercisesByMuscle.findIndex((group) => group.muscle === muscle);
-
-    if (muscleGroupIndex === -1) {
-      setExercisesByMuscle([...exercisesByMuscle, { muscle, exercises: [exercise] }]);
+    if (isWorkoutActive) {
+      // If we're in an active workout, add to the workout session
+      addExerciseToSession(exercise);
     } else {
-      const newExercisesByMuscle = [...exercisesByMuscle];
-      newExercisesByMuscle[muscleGroupIndex] = {
-        ...newExercisesByMuscle[muscleGroupIndex],
-        exercises: [...newExercisesByMuscle[muscleGroupIndex].exercises, exercise],
-      };
-      setExercisesByMuscle(newExercisesByMuscle);
-    }
+      // If we're in the stepper, add to the workout builder store
+      const muscleGroupIndex = exercisesByMuscle.findIndex((group) => group.muscle === muscle);
 
-    setExercisesOrder([...exercisesOrder, exercise.id]);
+      if (muscleGroupIndex === -1) {
+        const newExercisesByMuscle = [...exercisesByMuscle, { muscle, exercises: [exercise] }];
+        setExercisesByMuscle(newExercisesByMuscle);
+      } else {
+        // Check if exercise already exists in this muscle group to avoid duplicates
+        const existingExercises = exercisesByMuscle[muscleGroupIndex].exercises;
+        const exerciseExists = existingExercises.some(ex => ex.id === exercise.id);
+        
+        if (!exerciseExists) {
+          const newExercisesByMuscle = [...exercisesByMuscle];
+          newExercisesByMuscle[muscleGroupIndex] = {
+            ...newExercisesByMuscle[muscleGroupIndex],
+            exercises: [...newExercisesByMuscle[muscleGroupIndex].exercises, exercise],
+          };
+          setExercisesByMuscle(newExercisesByMuscle);
+        }
+      }
+
+      // Only add to exercisesOrder if not already present to avoid duplicates
+      const newExercisesOrder = exercisesOrder.includes(exercise.id) 
+        ? exercisesOrder 
+        : [...exercisesOrder, exercise.id];
+      setExercisesOrder(newExercisesOrder);
+    }
 
     onClose();
   };
