@@ -13,7 +13,6 @@ import { useFavoritesModal } from "@/features/workout-builder/hooks/use-favorite
 
 import { useWorkoutBuilderStore } from "../model/workout-builder.store";
 import { getExercisesByMuscleAction } from "../actions/get-exercises-by-muscle.action";
-import { useWorkoutSession } from "../../workout-session/model/use-workout-session";
 
 interface AddExerciseModalProps {
   isOpen: boolean;
@@ -44,7 +43,6 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
   const { value: isFavoritesExpanded, setTrue: openFavorites, setFalse: closeFavorites } = useBoolean(false);
 
   const { exercisesByMuscle, setExercisesByMuscle, setExercisesOrder, exercisesOrder } = useWorkoutBuilderStore();
-  const { isWorkoutActive, addExerciseToSession } = useWorkoutSession();
   const { data: muscleGroups, isLoading } = useQuery({
     queryKey: ["exercises-by-muscle", selectedEquipment],
     queryFn: async () => {
@@ -74,37 +72,30 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
   }, [isOpen, onClose]);
 
   const handleAddExercise = (exercise: ExerciseWithAttributes, muscle: ExerciseAttributeValueEnum) => {
-    if (isWorkoutActive) {
-      // If we're in an active workout, add to the workout session
-      addExerciseToSession(exercise);
+    // If we're in the stepper, add to the workout builder store
+    const muscleGroupIndex = exercisesByMuscle.findIndex((group) => group.muscle === muscle);
+
+    if (muscleGroupIndex === -1) {
+      const newExercisesByMuscle = [...exercisesByMuscle, { muscle, exercises: [exercise] }];
+      setExercisesByMuscle(newExercisesByMuscle);
     } else {
-      // If we're in the stepper, add to the workout builder store
-      const muscleGroupIndex = exercisesByMuscle.findIndex((group) => group.muscle === muscle);
+      // Check if exercise already exists in this muscle group to avoid duplicates
+      const existingExercises = exercisesByMuscle[muscleGroupIndex].exercises;
+      const exerciseExists = existingExercises.some((ex: ExerciseWithAttributes) => ex.id === exercise.id);
 
-      if (muscleGroupIndex === -1) {
-        const newExercisesByMuscle = [...exercisesByMuscle, { muscle, exercises: [exercise] }];
+      if (!exerciseExists) {
+        const newExercisesByMuscle = [...exercisesByMuscle];
+        newExercisesByMuscle[muscleGroupIndex] = {
+          ...newExercisesByMuscle[muscleGroupIndex],
+          exercises: [...newExercisesByMuscle[muscleGroupIndex].exercises, exercise],
+        };
         setExercisesByMuscle(newExercisesByMuscle);
-      } else {
-        // Check if exercise already exists in this muscle group to avoid duplicates
-        const existingExercises = exercisesByMuscle[muscleGroupIndex].exercises;
-        const exerciseExists = existingExercises.some(ex => ex.id === exercise.id);
-        
-        if (!exerciseExists) {
-          const newExercisesByMuscle = [...exercisesByMuscle];
-          newExercisesByMuscle[muscleGroupIndex] = {
-            ...newExercisesByMuscle[muscleGroupIndex],
-            exercises: [...newExercisesByMuscle[muscleGroupIndex].exercises, exercise],
-          };
-          setExercisesByMuscle(newExercisesByMuscle);
-        }
       }
-
-      // Only add to exercisesOrder if not already present to avoid duplicates
-      const newExercisesOrder = exercisesOrder.includes(exercise.id) 
-        ? exercisesOrder 
-        : [...exercisesOrder, exercise.id];
-      setExercisesOrder(newExercisesOrder);
     }
+
+    // Only add to exercisesOrder if not already present to avoid duplicates
+    const newExercisesOrder = exercisesOrder.includes(exercise.id) ? exercisesOrder : [...exercisesOrder, exercise.id];
+    setExercisesOrder(newExercisesOrder);
 
     onClose();
   };
@@ -182,14 +173,18 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
                     <div className="divide-y divide-gray-100 dark:divide-gray-800" id="favorites-section">
                       {favoriteExercises.map((exercise) => (
                         <div
-                          aria-label={`Ajouter ${locale === "en" ? exercise.nameEn : exercise.name}`}
+                          aria-label={`Ajouter ${locale === "en" ? exercise.nameEn || exercise.name : exercise.name}`}
                           className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out cursor-pointer group"
                           key={exercise.id}
-                          onClick={() => handleAddExercise(exercise, exercise.muscle)}
+                          onClick={() => {
+                            const { muscle, ...exerciseWithoutMuscle } = exercise;
+                            handleAddExercise(exerciseWithoutMuscle as ExerciseWithAttributes, muscle);
+                          }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === " ") {
                               e.preventDefault();
-                              handleAddExercise(exercise, exercise.muscle);
+                              const { muscle, ...exerciseWithoutMuscle } = exercise;
+                              handleAddExercise(exerciseWithoutMuscle as ExerciseWithAttributes, muscle);
                             }
                           }}
                           role="button"
@@ -202,7 +197,7 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
                                 {exercise.fullVideoImageUrl && (
                                   <div className="relative h-16 w-16 rounded-xl overflow-hidden shrink-0 bg-gray-100 dark:bg-gray-700 border-2 border-yellow-200 dark:border-yellow-600 group-hover:border-yellow-400 group-hover:shadow-lg transition-all duration-200">
                                     <Image
-                                      alt={exercise.nameEn}
+                                      alt={exercise.nameEn || ""}
                                       className="w-full h-full object-cover scale-[1.5]"
                                       height={64}
                                       loading="lazy"
@@ -227,17 +222,18 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
                               {/* Nom de l'exercice */}
                               <div className="flex-1">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors leading-tight">
-                                  {locale === "fr" ? exercise.name : exercise.nameEn}
+                                  {locale === "fr" ? exercise.name : exercise.nameEn || exercise.name}
                                 </h3>
                               </div>
 
                               {/* Bouton d'ajout moderne */}
                               <button
-                                aria-label={`Ajouter ${locale === "en" ? exercise.nameEn : exercise.name}`}
+                                aria-label={`Ajouter ${locale === "en" ? exercise.nameEn || exercise.name : exercise.name}`}
                                 className="btn btn-sm sm:btn-md bg-green-500 hover:bg-green-600 text-white border-0 transition-all duration-200 ease-in-out group-hover:scale-105 shadow-sm hover:shadow-md"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleAddExercise(exercise, exercise.muscle);
+                                  const { muscle, ...exerciseWithoutMuscle } = exercise;
+                                  handleAddExercise(exerciseWithoutMuscle as ExerciseWithAttributes, muscle);
                                 }}
                               >
                                 <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -286,7 +282,7 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
                     <div className="divide-y divide-gray-100 dark:divide-gray-800" id={`muscle-${group.muscle}`}>
                       {group.exercises.map((exercise) => (
                         <div
-                          aria-label={`Ajouter ${locale === "en" ? exercise.nameEn : exercise.name}`}
+                          aria-label={`Ajouter ${locale === "en" ? exercise.nameEn || exercise.name : exercise.name}`}
                           className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 ease-in-out cursor-pointer group"
                           key={exercise.id}
                           onClick={() => handleAddExercise(exercise, group.muscle)}
@@ -335,13 +331,13 @@ export const AddExerciseModal = ({ isOpen, onClose, selectedEquipment }: AddExer
                               {/* Nom de l'exercice */}
                               <div className="flex-1">
                                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors leading-tight">
-                                  {locale === "fr" ? exercise.name : exercise.nameEn}
+                                  {locale === "fr" ? exercise.name : exercise.nameEn || exercise.name}
                                 </h3>
                               </div>
 
                               {/* Bouton d'ajout moderne */}
                               <button
-                                aria-label={`Ajouter ${locale === "en" ? exercise.nameEn : exercise.name}`}
+                                aria-label={`Ajouter ${locale === "en" ? exercise.nameEn || exercise.name : exercise.name}`}
                                 className="btn btn-sm sm:btn-md bg-green-500 hover:bg-green-600 text-white border-0 transition-all duration-200 ease-in-out group-hover:scale-105 shadow-sm hover:shadow-md"
                                 onClick={(e) => {
                                   e.stopPropagation();
