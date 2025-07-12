@@ -14,9 +14,9 @@ export function HorizontalTopBanner({ adSlot }: { adSlot: string }) {
   return (
     <AdWrapper>
       <div className="w-full max-w-full" style={{ minHeight: "auto !important", maxHeight: "90px", width: "100%", overflow: "hidden" }}>
-        <div className="px-4 py-1">
+        <div className="px-4 py-1 flex justify-center">
           {isDevelopment ? (
-            <AdPlaceholder height="70px" type="Ad Banner (Top)" width="100%" />
+            <AdPlaceholder height="50px" type="Ad Banner (Top)" width="300px" />
           ) : (
             <GoogleAdSense
               adClient={env.NEXT_PUBLIC_AD_CLIENT}

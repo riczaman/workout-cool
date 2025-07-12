@@ -14,16 +14,18 @@ export function HorizontalBottomBanner({ adSlot }: { adSlot: string }) {
   return (
     <AdWrapper>
       <div className="w-full max-w-full" style={{ minHeight: "auto !important", maxHeight: "90px", width: "100%", overflow: "hidden" }}>
-        {isDevelopment ? (
-          <AdPlaceholder height="70px" type="Ad Banner (Bottom)" width="100%" />
-        ) : (
-          <GoogleAdSense
-            adClient={env.NEXT_PUBLIC_AD_CLIENT}
-            adFormat="horizontal"
-            adSlot={adSlot}
-            style={{ display: "inline-block", width: "300px", height: "50px" }}
-          />
-        )}
+        <div className="px-4 py-1 flex justify-center">
+          {isDevelopment ? (
+            <AdPlaceholder height="50px" type="Ad Banner (Bottom)" width="300px" />
+          ) : (
+            <GoogleAdSense
+              adClient={env.NEXT_PUBLIC_AD_CLIENT}
+              adFormat="horizontal"
+              adSlot={adSlot}
+              style={{ display: "inline-block", width: "300px", height: "50px" }}
+            />
+          )}
+        </div>
       </div>
     </AdWrapper>
   );
