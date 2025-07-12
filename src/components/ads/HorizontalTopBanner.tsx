@@ -22,7 +22,7 @@ export function HorizontalTopBanner({ adSlot }: { adSlot: string }) {
               adClient={env.NEXT_PUBLIC_AD_CLIENT}
               adFormat="horizontal"
               adSlot={adSlot}
-              style={{ display: "block", minHeight: "50px", maxHeight: "90px", width: "100%" }}
+              style={{ display: "inline-block", width: "468px", height: "90px" }}
             />
           )}
         </div>
