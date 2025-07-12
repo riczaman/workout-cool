@@ -27,6 +27,12 @@ export const Header = () => {
     logout.mutate();
   };
 
+  const handleCloseDropdown = () => {
+    const element = document.activeElement as HTMLElement;
+    if (!element) return;
+    element.blur();
+  };
+
   return (
     <div className="navbar bg-base-100 dark:bg-black dark:text-gray-200 px-4 rounded-tl-lg rounded-tr-lg">
       {/* Logo and Title */}
@@ -85,6 +91,7 @@ export const Header = () => {
 
           <ul
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 dark:bg-black dark:text-gray-200 rounded-box w-52 border border-slate-200 dark:border-gray-800"
+            onClick={handleCloseDropdown}
             tabIndex={0}
           >
             <li>
