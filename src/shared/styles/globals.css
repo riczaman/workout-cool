@@ -8,6 +8,14 @@
 
 @plugin "daisyui";
 
+.adsbygoogle {
+  min-width: 320px;
+}
+
+ins.adsbygoogle {
+  display: block !important;
+}
+
 :root {
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --text-xs: 0.75rem;
