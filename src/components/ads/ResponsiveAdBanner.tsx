@@ -8,10 +8,9 @@ import { AdWrapper } from "./AdWrapper";
 
 interface ResponsiveAdBannerProps {
   adSlot: string;
-  type: "top" | "bottom";
 }
 
-export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
+export function ResponsiveAdBanner({ adSlot }: ResponsiveAdBannerProps) {
   const isDevelopment = process.env.NODE_ENV === "development";
 
   if (!env.NEXT_PUBLIC_AD_CLIENT) {
@@ -31,7 +30,7 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
       >
         <div className="px-4 py-1 flex justify-center w-full">
           {isDevelopment ? (
-            <AdPlaceholder height="90px" type={`Ad Banner (${type === "top" ? "Top" : "Bottom"})`} width="100%" />
+            <AdPlaceholder height="90px" type="Ad Banner" width="100%" />
           ) : (
             <div className="responsive-ad-container">
               <GoogleAdSense
@@ -39,7 +38,6 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
                 adFormat="fluid"
                 adSlot={adSlot}
                 fullWidthResponsive={true}
-                position={type}
                 style={{
                   display: "block",
                   width: "100%",
