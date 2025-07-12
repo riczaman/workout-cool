@@ -75,7 +75,7 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
               adFormat="horizontal"
               adSlot={adSlot}
               className="responsive-ad-banner"
-              fullWidthResponsive={false}
+              fullWidthResponsive={true}
               style={getResponsiveStyle()}
             />
           )}
