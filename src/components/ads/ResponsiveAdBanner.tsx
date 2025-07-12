@@ -18,90 +18,55 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
     return null;
   }
 
-  const getResponsiveStyle = () => ({
-    display: "inline-block",
-    width: "100%",
-    // Mobile: 320x50
-    height: "50px",
-    maxWidth: "320px",
-    // Tablet: 468x60
-    "@media (min-width: 481px) and (max-width: 768px)": {
-      height: "60px",
-      maxWidth: "468px",
-    },
-    // Desktop: 728x90
-    "@media (min-width: 769px)": {
-      height: "90px",
-      maxWidth: "728px",
-    },
-  });
-
-  const getContainerClass = () => {
-    return "w-full max-w-full overflow-hidden";
-  };
-
-  const getContainerStyle = () => ({
-    minHeight: "auto !important",
-    // Mobile
-    maxHeight: "50px",
-    width: "100%",
-    // Tablet
-    "@media (min-width: 481px) and (max-width: 768px)": {
-      maxHeight: "60px",
-    },
-    // Desktop
-    "@media (min-width: 769px)": {
-      maxHeight: "90px",
-    },
-  });
-
-  const getPlaceholderDimensions = () => {
-    // En développement, on simule les dimensions desktop par défaut
-    return {
-      width: "100%",
-      height: "90px", // Desktop par défaut
-    };
-  };
-
   return (
     <AdWrapper>
-      <div className={getContainerClass()} style={getContainerStyle()}>
-        <div className="px-4 py-1 flex justify-center">
+      <div
+        className="w-full max-w-full overflow-hidden"
+        style={{
+          minHeight: "auto",
+          width: "100%",
+          maxHeight: "90px",
+        }}
+      >
+        <div className="px-4 py-1 flex justify-center w-full">
           {isDevelopment ? (
-            <AdPlaceholder {...getPlaceholderDimensions()} type={`Ad Banner (${type === "top" ? "Top" : "Bottom"})`} />
+            <AdPlaceholder height="90px" type={`Ad Banner (${type === "top" ? "Top" : "Bottom"})`} width="100%" />
           ) : (
-            <GoogleAdSense
-              adClient={env.NEXT_PUBLIC_AD_CLIENT}
-              adFormat="horizontal"
-              adSlot={adSlot}
-              className="responsive-ad-banner"
-              fullWidthResponsive={true}
-              style={getResponsiveStyle()}
-            />
+            <div className="responsive-ad-container">
+              <GoogleAdSense
+                adClient={env.NEXT_PUBLIC_AD_CLIENT}
+                adFormat="horizontal"
+                adSlot={adSlot}
+                fullWidthResponsive={false}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "90px",
+                }}
+              />
+            </div>
           )}
         </div>
       </div>
+
       <style jsx>{`
-        .responsive-ad-banner {
-          /* Mobile: 320x50 */
-          width: 100% !important;
-          max-width: 320px !important;
-          height: 50px !important;
+        .responsive-ad-container {
+          width: 100%;
+          max-width: 320px;
+          height: 50px;
         }
 
         @media (min-width: 481px) and (max-width: 768px) {
-          .responsive-ad-banner {
-            /* Tablet: 468x60 */
-            max-width: 468px !important;
-            height: 60px !important;
+          .responsive-ad-container {
+            max-width: 468px;
+            height: 60px;
           }
         }
 
         @media (min-width: 769px) {
-          .responsive-ad-banner {
-            /* Desktop: 728x90 */
-            max-width: 728px !important;
-            height: 90px !important;
+          .responsive-ad-container {
+            max-width: 728px;
+            height: 90px;
           }
         }
       `}</style>
