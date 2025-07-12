@@ -26,6 +26,8 @@ export function InArticle({ adSlot }: { adSlot: string }) {
               style={{
                 display: "block",
                 textAlign: "center",
+                width: "300px",
+                height: "200px",
               }}
             />
           )}

@@ -35,9 +35,9 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
             <div className="responsive-ad-container">
               <GoogleAdSense
                 adClient={env.NEXT_PUBLIC_AD_CLIENT}
-                adFormat="horizontal"
+                adFormat="fluid"
                 adSlot={adSlot}
-                fullWidthResponsive={false}
+                fullWidthResponsive={true}
                 style={{
                   display: "block",
                   width: "100%",
