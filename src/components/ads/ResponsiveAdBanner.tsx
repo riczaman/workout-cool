@@ -28,7 +28,7 @@ export function ResponsiveAdBanner({ adSlot }: ResponsiveAdBannerProps) {
           height: "90px",
         }}
       >
-        <div className="px-4 py-1 flex justify-center w-full">
+        <div className="py-1 flex justify-center w-full">
           {isDevelopment ? (
             <AdPlaceholder height="90px" type="Ad Banner" width="100%" />
           ) : (

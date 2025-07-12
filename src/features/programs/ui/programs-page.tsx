@@ -124,6 +124,10 @@ export async function ProgramsPage({ locale }: ProgramsPageProps) {
                   />
                 </div>
 
+                {env.NEXT_PUBLIC_BOTTOM_PROGRAMS_BANNER_AD_SLOT && (
+                  <HorizontalBottomBanner adSlot={env.NEXT_PUBLIC_BOTTOM_PROGRAMS_BANNER_AD_SLOT} />
+                )}
+
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <TrendingUp className="text-[#4F8EF7] w-6 h-6" />
                   <h3 className="text-xl font-bold text-slate-800 dark:text-slate-200">{t("programs.more_programs_coming_title")}</h3>
@@ -149,7 +153,6 @@ export async function ProgramsPage({ locale }: ProgramsPageProps) {
           </div>
         )}
       </section>
-      {env.NEXT_PUBLIC_BOTTOM_PROGRAMS_BANNER_AD_SLOT && <HorizontalBottomBanner adSlot={env.NEXT_PUBLIC_BOTTOM_PROGRAMS_BANNER_AD_SLOT} />}
     </main>
   );
 }
