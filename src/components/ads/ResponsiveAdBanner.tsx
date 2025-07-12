@@ -39,6 +39,7 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
                 adFormat="fluid"
                 adSlot={adSlot}
                 fullWidthResponsive={true}
+                position={type}
                 style={{
                   display: "block",
                   width: "100%",
