@@ -8,13 +8,7 @@
 
 @plugin "daisyui";
 
-.adsbygoogle {
-  min-width: 320px;
-}
-
-ins.adsbygoogle {
-  display: block !important;
-}
+/* Google AdSense Styles - Prevent "No slot size for availableWidth=0" error */
 
 :root {
   --font-sans: "Plus Jakarta Sans", sans-serif;
