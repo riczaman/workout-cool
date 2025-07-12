@@ -21,7 +21,7 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
   return (
     <AdWrapper>
       <div
-        className="w-full max-w-full overflow-hidden"
+        className="w-full max-w-full"
         style={{
           minHeight: "auto",
           width: "100%",
