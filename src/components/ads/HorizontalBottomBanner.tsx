@@ -1,10 +1,11 @@
 import { env } from "@/env";
+import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 import { GoogleAdSense } from "./GoogleAdSense";
 import { AdWrapper } from "./AdWrapper";
 
 export function HorizontalBottomBanner({ adSlot }: { adSlot: string }) {
-  const _isDevelopment = process.env.NODE_ENV === "development";
+  const isDevelopment = process.env.NODE_ENV === "development";
 
   if (!env.NEXT_PUBLIC_AD_CLIENT) {
     return null;
@@ -12,15 +13,17 @@ export function HorizontalBottomBanner({ adSlot }: { adSlot: string }) {
 
   return (
     <AdWrapper>
-      <div className="w-full max-w-full overflow-hidden !max-h-[90px]" style={{ minHeight: "90px", maxHeight: "90px", width: "100%" }}>
-        <div className="px-4 py-2">
+      <div className="w-full max-w-full" style={{ minHeight: "auto !important", maxHeight: "90px", width: "100%", overflow: "hidden" }}>
+        {isDevelopment ? (
+          <AdPlaceholder height="70px" type="Ad Banner (Bottom)" width="100%" />
+        ) : (
           <GoogleAdSense
             adClient={env.NEXT_PUBLIC_AD_CLIENT}
             adFormat="horizontal"
             adSlot={adSlot}
             style={{ display: "inline-block", width: "468px", height: "60px" }}
           />
-        </div>
+        )}
       </div>
     </AdWrapper>
   );
