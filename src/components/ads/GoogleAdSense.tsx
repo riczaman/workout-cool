@@ -21,7 +21,7 @@ export function GoogleAdSense({
   adClient,
   adSlot,
   adFormat = "auto",
-  fullWidthResponsive = true,
+  fullWidthResponsive = false,
   style = { display: "block" },
   className = "",
 }: GoogleAdSenseProps) {
