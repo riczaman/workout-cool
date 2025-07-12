@@ -26,6 +26,7 @@ export function ResponsiveAdBanner({ adSlot, type }: ResponsiveAdBannerProps) {
           minHeight: "auto",
           width: "100%",
           maxHeight: "90px",
+          height: "90px",
         }}
       >
         <div className="px-4 py-1 flex justify-center w-full">
