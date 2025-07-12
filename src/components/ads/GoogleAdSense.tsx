@@ -34,7 +34,7 @@ export function GoogleAdSense({
   }, []);
 
   return (
-    <div className="overflow-hidden" style={{ maxWidth: "100%" }}>
+    <div className="overflow-hidden" style={{ maxWidth: "100%", maxHeight: style?.maxHeight || "auto" }}>
       <ins
         className={`adsbygoogle ${className}`}
         data-ad-client={adClient}
